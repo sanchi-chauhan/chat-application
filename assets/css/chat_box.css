@@ -1,103 +1,1066 @@
-body{
-    margin:0;
-    padding:0;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.5s ease;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Seasonal Effects Containers */
+#snow-container,
+#leaves-container,
+#flowers-container,
+#strawberries-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Snowflake Animation */
+.snowflake {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.95);
+    user-select: none;
+    animation: snowfallFromTop linear;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+/* Snowflakes from top */
+.snowflake[data-from="top"] {
+    animation: snowfallFromTop linear;
+}
+
+/* Snowflakes from right */
+.snowflake[data-from="right"] {
+    animation: snowfallFromRight linear;
+}
+
+/* Snowflakes from bottom */
+.snowflake[data-from="bottom"] {
+    animation: snowfallFromBottom linear;
+}
+
+/* Snowflakes from left */
+.snowflake[data-from="left"] {
+    animation: snowfallFromLeft linear;
+}
+
+@keyframes snowfallFromTop {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(25px, 20vh) rotate(72deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-15px, 40vh) rotate(144deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(35px, 60vh) rotate(216deg);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(-10px, 80vh) rotate(288deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(20px, 100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes snowfallFromRight {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(-30px, 20vh) rotate(72deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(20px, 40vh) rotate(144deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(-35px, 60vh) rotate(216deg);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(15px, 80vh) rotate(288deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-25px, 100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes snowfallFromBottom {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(25px, -20vh) rotate(72deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-15px, -40vh) rotate(144deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(35px, -60vh) rotate(216deg);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(-10px, -80vh) rotate(288deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(20px, -100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes snowfallFromLeft {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(30px, 20vh) rotate(72deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-20px, 40vh) rotate(144deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(35px, 60vh) rotate(216deg);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(-15px, 80vh) rotate(288deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(25px, 100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Autumn - Leaves Animation */
+.leaf {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.9);
+    user-select: none;
+    animation: leafFall linear;
+    text-shadow: 0 0 8px rgba(255, 140, 0, 0.8), 0 0 15px rgba(255, 100, 0, 0.5);
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+.leaf[data-from="top"] {
+    animation: leafFallFromTop linear;
+}
+
+.leaf[data-from="right"] {
+    animation: leafFallFromRight linear;
+}
+
+.leaf[data-from="bottom"] {
+    animation: leafFallFromBottom linear;
+}
+
+.leaf[data-from="left"] {
+    animation: leafFallFromLeft linear;
+}
+
+@keyframes leafFallFromTop {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(30px, 20vh) rotate(90deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-20px, 40vh) rotate(180deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(40px, 60vh) rotate(270deg);
+        opacity: 0.9;
+    }
+
+    80% {
+        transform: translate(-15px, 80vh) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(25px, 100vh) rotate(450deg);
+        opacity: 0;
+    }
+}
+
+@keyframes leafFallFromRight {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(-35px, 20vh) rotate(90deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(25px, 40vh) rotate(180deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(-40px, 60vh) rotate(270deg);
+        opacity: 0.9;
+    }
+
+    80% {
+        transform: translate(20px, 80vh) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-30px, 100vh) rotate(450deg);
+        opacity: 0;
+    }
+}
+
+@keyframes leafFallFromBottom {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(30px, -20vh) rotate(90deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-20px, -40vh) rotate(180deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(40px, -60vh) rotate(270deg);
+        opacity: 0.9;
+    }
+
+    80% {
+        transform: translate(-15px, -80vh) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(25px, -100vh) rotate(450deg);
+        opacity: 0;
+    }
+}
+
+@keyframes leafFallFromLeft {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(35px, 20vh) rotate(90deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-25px, 40vh) rotate(180deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(40px, 60vh) rotate(270deg);
+        opacity: 0.9;
+    }
+
+    80% {
+        transform: translate(-20px, 80vh) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(30px, 100vh) rotate(450deg);
+        opacity: 0;
+    }
+}
+
+/* Spring - Flowers Animation */
+.flower {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.95);
+    user-select: none;
+    animation: flowerFall linear;
+    text-shadow: 0 0 10px rgba(255, 192, 203, 0.9), 0 0 20px rgba(255, 182, 193, 0.6);
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+.flower[data-from="top"] {
+    animation: flowerFallFromTop linear;
+}
+
+.flower[data-from="right"] {
+    animation: flowerFallFromRight linear;
+}
+
+.flower[data-from="bottom"] {
+    animation: flowerFallFromBottom linear;
+}
+
+.flower[data-from="left"] {
+    animation: flowerFallFromLeft linear;
+}
+
+@keyframes flowerFallFromTop {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(25px, 20vh) rotate(72deg) scale(1.1);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-15px, 40vh) rotate(144deg) scale(1);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(35px, 60vh) rotate(216deg) scale(1.1);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(-10px, 80vh) rotate(288deg) scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(20px, 100vh) rotate(360deg) scale(0.9);
+        opacity: 0;
+    }
+}
+
+@keyframes flowerFallFromRight {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(-30px, 20vh) rotate(72deg) scale(1.1);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(20px, 40vh) rotate(144deg) scale(1);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(-35px, 60vh) rotate(216deg) scale(1.1);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(15px, 80vh) rotate(288deg) scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-25px, 100vh) rotate(360deg) scale(0.9);
+        opacity: 0;
+    }
+}
+
+@keyframes flowerFallFromBottom {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(25px, -20vh) rotate(72deg) scale(1.1);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-15px, -40vh) rotate(144deg) scale(1);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(35px, -60vh) rotate(216deg) scale(1.1);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(-10px, -80vh) rotate(288deg) scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(20px, -100vh) rotate(360deg) scale(0.9);
+        opacity: 0;
+    }
+}
+
+@keyframes flowerFallFromLeft {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(30px, 20vh) rotate(72deg) scale(1.1);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-20px, 40vh) rotate(144deg) scale(1);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(35px, 60vh) rotate(216deg) scale(1.1);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(-15px, 80vh) rotate(288deg) scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(25px, 100vh) rotate(360deg) scale(0.9);
+        opacity: 0;
+    }
+}
+
+/* Summer - Strawberries Animation */
+.strawberry {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.95);
+    user-select: none;
+    animation: strawberryFall linear;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 50, 0, 0.6);
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+.strawberry[data-from="top"] {
+    animation: strawberryFallFromTop linear;
+}
+
+.strawberry[data-from="right"] {
+    animation: strawberryFallFromRight linear;
+}
+
+.strawberry[data-from="bottom"] {
+    animation: strawberryFallFromBottom linear;
+}
+
+.strawberry[data-from="left"] {
+    animation: strawberryFallFromLeft linear;
+}
+
+@keyframes strawberryFallFromTop {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(28px, 20vh) rotate(90deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-18px, 40vh) rotate(180deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(38px, 60vh) rotate(270deg);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(-12px, 80vh) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(22px, 100vh) rotate(450deg);
+        opacity: 0;
+    }
+}
+
+@keyframes strawberryFallFromRight {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(-32px, 20vh) rotate(90deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(22px, 40vh) rotate(180deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(-38px, 60vh) rotate(270deg);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(18px, 80vh) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-28px, 100vh) rotate(450deg);
+        opacity: 0;
+    }
+}
+
+@keyframes strawberryFallFromBottom {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(28px, -20vh) rotate(90deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-18px, -40vh) rotate(180deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(38px, -60vh) rotate(270deg);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(-12px, -80vh) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(22px, -100vh) rotate(450deg);
+        opacity: 0;
+    }
+}
+
+@keyframes strawberryFallFromLeft {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: translate(32px, 20vh) rotate(90deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translate(-22px, 40vh) rotate(180deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: translate(38px, 60vh) rotate(270deg);
+        opacity: 0.95;
+    }
+
+    80% {
+        transform: translate(-18px, 80vh) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(28px, 100vh) rotate(450deg);
+        opacity: 0;
+    }
+}
+
+/* Theme Variables - Default is Winter */
+:root {
+    --primary-gradient-start: #431259;
+    --primary-gradient-end: #60308c;
+    --ai-message-start: #b3beff;
+    --ai-message-end: #9a99f2;
+    --user-message-start: #8b79d9;
+    --user-message-end: #805ebf;
+    --send-button-start: #6f46a6;
+    --send-button-end: #60308c;
+    --heading-color: #431259;
+}
+
+/* Default Theme (Winter) - Light background, use dark text */
+body:not([data-theme]) {
+    background: linear-gradient(135deg, #e6f2ff 0%, #ccdcff 11%, #b3beff 22%, #9a99f2 33%, #8b79d9 44%, #805ebf 56%, #6f46a6 67%, #60308c 78%, #511f73 89%, #431259 100%);
+    --primary-gradient-start: #431259;
+    --primary-gradient-end: #60308c;
+    --ai-message-start: #b3beff;
+    --ai-message-end: #9a99f2;
+    --user-message-start: #8b79d9;
+    --user-message-end: #805ebf;
+    --send-button-start: #6f46a6;
+    --send-button-end: #60308c;
+    --heading-color: #431259;
+}
+
+/* Autumn Theme - Dark background, use light text */
+body[data-theme="autumn"] {
+    background: linear-gradient(135deg, #4f000b 0%, #720026 50%, #ce4257 100%);
+    --primary-gradient-start: #4f000b;
+    --primary-gradient-end: #720026;
+    --ai-message-start: #720026;
+    --ai-message-end: #ce4257;
+    --user-message-start: #ff7f51;
+    --user-message-end: #ff9b54;
+    --send-button-start: #ce4257;
+    --send-button-end: #ff7f51;
+    --heading-color: #ff9b54;
+}
+
+/* Spring Theme - Light background, use dark text */
+body[data-theme="spring"] {
+    background: linear-gradient(135deg, #f9dbbd 0%, #ffa5ab 50%, #da627d 100%);
+    --primary-gradient-start: #f9dbbd;
+    --primary-gradient-end: #ffa5ab;
+    --ai-message-start: #ffa5ab;
+    --ai-message-end: #da627d;
+    --user-message-start: #da627d;
+    --user-message-end: #a53860;
+    --send-button-start: #a53860;
+    --send-button-end: #450920;
+    --heading-color: #450920;
+}
+
+/* Summer Theme - Bright background, use dark text */
+body[data-theme="summer"] {
+    background: linear-gradient(135deg, #ff0000 0%, #ff5a00 25%, #ff9a00 50%, #ffce00 75%, #ffe808 100%);
+    --primary-gradient-start: #ff0000;
+    --primary-gradient-end: #ff5a00;
+    --ai-message-start: #ff5a00;
+    --ai-message-end: #ff9a00;
+    --user-message-start: #ff9a00;
+    --user-message-end: #ffce00;
+    --send-button-start: #ffce00;
+    --send-button-end: #ffe808;
+    --heading-color: #4f000b;
+}
+
+/* Winter Theme - Light background, use dark text */
+body[data-theme="winter"] {
+    background: linear-gradient(135deg, #e6f2ff 0%, #ccdcff 11%, #b3beff 22%, #9a99f2 33%, #8b79d9 44%, #805ebf 56%, #6f46a6 67%, #60308c 78%, #511f73 89%, #431259 100%);
+    --primary-gradient-start: #431259;
+    --primary-gradient-end: #60308c;
+    --ai-message-start: #b3beff;
+    --ai-message-end: #9a99f2;
+    --user-message-start: #8b79d9;
+    --user-message-end: #805ebf;
+    --send-button-start: #6f46a6;
+    --send-button-end: #60308c;
+    --heading-color: #431259;
+}
+
+/* Theme Toggle Button */
+#theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+#theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: white;
+}
+
+#theme-toggle:active {
+    transform: translateY(0);
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-    width: 0;  
-    background: transparent; 
-} 
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
 
 ::-webkit-scrollbar-thumb {
-    background: transparent;
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 #user-chat-box {
-    position: fixed;
-    bottom: 10%;
-    right: 10px;
-    border: 1px solid black;
-    height: 500px;
-    width: 400px;
-    background: white;
-    box-shadow: 1px 1px 1px 1px lightgrey; 
+    width: 90%;
+    max-width: 800px;
+    height: 90vh;
+    max-height: 700px;
+    background: transparent;
+    border-radius: 20px;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUp 0.5s ease-out;
+    position: relative;
+    z-index: 10;
 }
 
-#purple{
-    height:12%;
-    background-color: lightcoral;
-    color:black; 
-    padding-top: 40px;
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-#purple span:nth-child(1){
-    font-size: larger;
+#purple {
+    background: transparent;
+    color: var(--heading-color, white);
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-shadow: none;
+    transition: background 0.5s ease, color 0.5s ease;
+    align-items: flex-start;
+    text-align: left;
+}
+
+#purple span:nth-child(1),
+#typing-text {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--heading-color, white);
+    text-shadow: none;
+}
+
+.typing-cursor {
+    display: inline-block;
+    animation: blink 1s infinite;
+    color: var(--heading-color, white);
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+#purple span:nth-child(2) {
+    font-size: 24px;
+    opacity: 1;
+    font-weight: 500;
+    color: var(--heading-color, white);
+    text-shadow: none;
+}
+
+#purple span:nth-child(3) {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 5px;
 }
 
 #user-chat-box #chat-messages-list {
     list-style: none;
-    padding: 10px;
-    height: 70%;
-    background-color: white;
-    overflow: auto; 
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 #user-chat-box #chat-messages-list .other-message {
-    text-align: left;
-    padding: 5px; 
-    word-break: break-all;
+    display: flex;
+    justify-content: flex-start;
+    animation: fadeIn 0.3s ease-in;
 }
 
 #user-chat-box #chat-messages-list .other-message span {
     display: inline-block;
-    padding: 15px;
-    background-color: #ffa0a0;
-    max-width: 80%;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, var(--ai-message-start) 0%, var(--ai-message-end) 100%);
+    color: white;
+    max-width: 75%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    border-radius: 18px 18px 18px 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    transition: background 0.5s ease;
 }
 
 #user-chat-box #chat-messages-list .self-message {
-    text-align: right;
-    padding: 5px; 
-    word-break: break-all; 
+    display: flex;
+    justify-content: flex-end;
+    animation: fadeIn 0.3s ease-in;
 }
 
 #user-chat-box #chat-messages-list .self-message span {
     display: inline-block;
-    padding: 15px;
-    background-color: #a0dcff;  
+    padding: 12px 16px;
+    background: linear-gradient(135deg, var(--user-message-start) 0%, var(--user-message-end) 100%);
+    color: white;
+    max-width: 75%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    border-radius: 18px 18px 4px 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    transition: background 0.5s ease;
+}
+
+#user-chat-box #chat-messages-list .typing-indicator span {
+    background: #e0e0e0;
+    color: #666;
+    font-style: italic;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 #user-chat-box #chat-message-input-container {
-    height: 24%;
-    width: 100%;
+    padding: 20px;
+    background: transparent;
+    border-top: none;
     display: flex;
-    flex-direction: row; 
+    gap: 12px;
+    align-items: center;
 }
 
 #user-chat-box #chat-message-input-container #chat-message-input {
-    height: 50%;
-    width: 70%; 
+    flex: 1;
+    padding: 14px 18px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+#user-chat-box #chat-message-input-container #chat-message-input:focus {
+    border-color: var(--primary-gradient-start);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+#user-chat-box #chat-message-input-container #chat-message-input::placeholder {
+    color: #999;
 }
 
 #user-chat-box #chat-message-input-container #send-message {
-    height: 50%;
-    width: 30%;
-    font-size: 25px;
+    padding: 14px 30px;
+    background: linear-gradient(135deg, var(--send-button-start) 0%, var(--send-button-end) 100%);
     color: white;
     border: none;
-    background: lightslategrey; 
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    min-width: 100px;
 }
-   
-#logout button{
-    width:100px;
-    height:50px;
-    border:none;
-    outline:none;
-    background-color: crimson;
-    margin-top: 20px;
-    margin-left:20px;
+
+#user-chat-box #chat-message-input-container #send-message:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
-#logout button a{
-    color:white;
+
+#user-chat-box #chat-message-input-container #send-message:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#logout {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#logout button {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#logout button:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#logout button a {
+    color: #667eea;
     text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #user-chat-box {
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    #purple {
+        padding: 15px 20px;
+    }
+
+    #purple span:nth-child(1) {
+        font-size: 20px;
+    }
+
+    #user-chat-box #chat-messages-list {
+        padding: 15px;
+    }
+
+    #user-chat-box #chat-messages-list .other-message span,
+    #user-chat-box #chat-messages-list .self-message span {
+        max-width: 85%;
+        font-size: 14px;
+    }
 }

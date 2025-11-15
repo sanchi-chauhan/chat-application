@@ -1,34 +1,448 @@
-<link href="/css/chat_box.css" rel="stylesheet" type="text/css">
-<div id="logout"><button><a href="/logout">LOGOUT</a></button></div>
-<div id="user-chat-box">
-    <div id="purple">
-        <span>Let's Talk Here</span><br>
-        <span>We are offline, get back to you soon</span><br>
-        <span><%=user.name%></span>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech AI Assistant</title>
+    <link href="/css/chat_box.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="snow-container"></div>
+    <div id="leaves-container"></div>
+    <div id="flowers-container"></div>
+    <div id="strawberries-container"></div>
+    <button id="theme-toggle" onclick="toggleTheme()">🎨 Change Theme</button>
+    <div id="user-chat-box">
+        <div id="purple">
+            <span id="typing-text"></span>
+            <span>Ask me anything about technology & computer science</span>
+        </div>
+        <ul id="chat-messages-list">
+        </ul>
+        <div id="chat-message-input-container">
+            <input id="chat-message-input" placeholder="Type your message here">
+            <button onclick=sendMessage() id="send-message">Send</button>
+        </div>
+
+        <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            const socket = io('http://localhost:4000');
+
+            socket.on('connect', () => {
+                console.log('Connected to server');
+            });
+
+            socket.on('message', (data) => {
+                console.log('Message received from server:', data);
+                // Remove typing indicator if present
+                $('.typing-indicator').remove();
+
+                // Convert newlines to <br> for proper display
+                const formattedData = data.replace(/\n/g, '<br>');
+
+                var list = $("#chat-messages-list");
+                list.append('<li class="other-message"><span id="other-message-receive">' + formattedData + '</span></li>');
+                // Auto scroll to bottom
+                setTimeout(() => {
+                    list.scrollTop(list[0].scrollHeight);
+                }, 100);
+            });
+
+            // Show typing indicator when waiting for response
+            socket.on('typing', () => {
+                var list = $("#chat-messages-list");
+                if ($('.typing-indicator').length === 0) {
+                    list.append('<li class="other-message typing-indicator"><span id="other-message-receive">AI is typing...</span></li>');
+                    list.scrollTop(list[0].scrollHeight);
+                }
+            });
+
+            const sendMessage = () => {
+                var send_message = document.getElementById('chat-message-input');
+                var message = send_message.value.trim();
+
+                if (message === '') {
+                    return;
+                }
+
+                var list = $("#chat-messages-list");
+                list.append('<li class="self-message"><span id="my-message-receive">' + message + '</span></li>');
+                socket.emit('message', message);
+                send_message.value = '';
+
+                // Show typing indicator
+                setTimeout(() => {
+                    if ($('.typing-indicator').length === 0) {
+                        list.append('<li class="other-message typing-indicator"><span id="other-message-receive">AI is typing...</span></li>');
+                        list.scrollTop(list[0].scrollHeight);
+                    }
+                }, 300);
+
+                // Auto scroll to bottom
+                list.scrollTop(list[0].scrollHeight);
+            }
+
+            // Allow sending message with Enter key
+            document.getElementById('chat-message-input').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Theme switching functionality
+            const themes = ['winter', 'autumn', 'spring', 'summer'];
+            let currentThemeIndex = 0;
+
+            // Load saved theme from localStorage, default to 'winter'
+            const savedTheme = localStorage.getItem('chatTheme');
+
+            // Migrate old 'default' theme to 'winter'
+            if (savedTheme === 'default') {
+                localStorage.setItem('chatTheme', 'winter');
+                document.body.setAttribute('data-theme', 'winter');
+                currentThemeIndex = 0;
+            } else if (savedTheme && themes.includes(savedTheme)) {
+                currentThemeIndex = themes.indexOf(savedTheme);
+                document.body.setAttribute('data-theme', themes[currentThemeIndex]);
+            } else {
+                // Set default theme (winter) if no saved theme or invalid theme
+                document.body.setAttribute('data-theme', 'winter');
+                localStorage.setItem('chatTheme', 'winter');
+                currentThemeIndex = 0;
+            }
+
+            // Seasonal effects
+            let snowfallInterval = null;
+            let leavesInterval = null;
+            let flowersInterval = null;
+            let strawberriesInterval = null;
+
+            // Winter - Snowflakes
+            function createSnowflake() {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+
+                const side = Math.floor(Math.random() * 4);
+                const randomOffset = Math.random() * 100;
+
+                snowflake.style.left = 'auto';
+                snowflake.style.right = 'auto';
+                snowflake.style.top = 'auto';
+                snowflake.style.bottom = 'auto';
+
+                if (side === 0) {
+                    snowflake.style.left = randomOffset + '%';
+                    snowflake.style.top = '-30px';
+                    snowflake.setAttribute('data-from', 'top');
+                } else if (side === 1) {
+                    snowflake.style.right = '-30px';
+                    snowflake.style.top = randomOffset + '%';
+                    snowflake.setAttribute('data-from', 'right');
+                } else if (side === 2) {
+                    snowflake.style.left = randomOffset + '%';
+                    snowflake.style.bottom = '-30px';
+                    snowflake.setAttribute('data-from', 'bottom');
+                } else {
+                    snowflake.style.left = '-30px';
+                    snowflake.style.top = randomOffset + '%';
+                    snowflake.setAttribute('data-from', 'left');
+                }
+
+                const duration = Math.random() * 8 + 10;
+                snowflake.style.animationDuration = duration + 's';
+                snowflake.style.opacity = Math.random() * 0.4 + 0.6;
+                snowflake.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                snowflake.style.animationDelay = Math.random() * 1 + 's';
+
+                document.getElementById('snow-container').appendChild(snowflake);
+                setTimeout(() => {
+                    if (snowflake.parentNode) {
+                        snowflake.remove();
+                    }
+                }, (duration + 2) * 1000);
+            }
+
+            // Autumn - Leaves
+            function createLeaf() {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.innerHTML = '🍂';
+
+                const side = Math.floor(Math.random() * 4);
+                const randomOffset = Math.random() * 100;
+
+                leaf.style.left = 'auto';
+                leaf.style.right = 'auto';
+                leaf.style.top = 'auto';
+                leaf.style.bottom = 'auto';
+
+                if (side === 0) {
+                    leaf.style.left = randomOffset + '%';
+                    leaf.style.top = '-30px';
+                    leaf.setAttribute('data-from', 'top');
+                } else if (side === 1) {
+                    leaf.style.right = '-30px';
+                    leaf.style.top = randomOffset + '%';
+                    leaf.setAttribute('data-from', 'right');
+                } else if (side === 2) {
+                    leaf.style.left = randomOffset + '%';
+                    leaf.style.bottom = '-30px';
+                    leaf.setAttribute('data-from', 'bottom');
+                } else {
+                    leaf.style.left = '-30px';
+                    leaf.style.top = randomOffset + '%';
+                    leaf.setAttribute('data-from', 'left');
+                }
+
+                const duration = Math.random() * 6 + 8;
+                leaf.style.animationDuration = duration + 's';
+                leaf.style.opacity = Math.random() * 0.5 + 0.5;
+                leaf.style.fontSize = (Math.random() * 12 + 14) + 'px';
+                leaf.style.animationDelay = Math.random() * 1 + 's';
+
+                document.getElementById('leaves-container').appendChild(leaf);
+                setTimeout(() => {
+                    if (leaf.parentNode) {
+                        leaf.remove();
+                    }
+                }, (duration + 2) * 1000);
+            }
+
+            // Spring - Flowers
+            function createFlower() {
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                flower.innerHTML = '🌸';
+
+                const side = Math.floor(Math.random() * 4);
+                const randomOffset = Math.random() * 100;
+
+                flower.style.left = 'auto';
+                flower.style.right = 'auto';
+                flower.style.top = 'auto';
+                flower.style.bottom = 'auto';
+
+                if (side === 0) {
+                    flower.style.left = randomOffset + '%';
+                    flower.style.top = '-30px';
+                    flower.setAttribute('data-from', 'top');
+                } else if (side === 1) {
+                    flower.style.right = '-30px';
+                    flower.style.top = randomOffset + '%';
+                    flower.setAttribute('data-from', 'right');
+                } else if (side === 2) {
+                    flower.style.left = randomOffset + '%';
+                    flower.style.bottom = '-30px';
+                    flower.setAttribute('data-from', 'bottom');
+                } else {
+                    flower.style.left = '-30px';
+                    flower.style.top = randomOffset + '%';
+                    flower.setAttribute('data-from', 'left');
+                }
+
+                const duration = Math.random() * 7 + 9;
+                flower.style.animationDuration = duration + 's';
+                flower.style.opacity = Math.random() * 0.4 + 0.6;
+                flower.style.fontSize = (Math.random() * 14 + 12) + 'px';
+                flower.style.animationDelay = Math.random() * 1 + 's';
+
+                document.getElementById('flowers-container').appendChild(flower);
+                setTimeout(() => {
+                    if (flower.parentNode) {
+                        flower.remove();
+                    }
+                }, (duration + 2) * 1000);
+            }
+
+            // Summer - Strawberries
+            function createStrawberry() {
+                const strawberry = document.createElement('div');
+                strawberry.className = 'strawberry';
+                strawberry.innerHTML = '🍓';
+
+                const side = Math.floor(Math.random() * 4);
+                const randomOffset = Math.random() * 100;
+
+                strawberry.style.left = 'auto';
+                strawberry.style.right = 'auto';
+                strawberry.style.top = 'auto';
+                strawberry.style.bottom = 'auto';
+
+                if (side === 0) {
+                    strawberry.style.left = randomOffset + '%';
+                    strawberry.style.top = '-30px';
+                    strawberry.setAttribute('data-from', 'top');
+                } else if (side === 1) {
+                    strawberry.style.right = '-30px';
+                    strawberry.style.top = randomOffset + '%';
+                    strawberry.setAttribute('data-from', 'right');
+                } else if (side === 2) {
+                    strawberry.style.left = randomOffset + '%';
+                    strawberry.style.bottom = '-30px';
+                    strawberry.setAttribute('data-from', 'bottom');
+                } else {
+                    strawberry.style.left = '-30px';
+                    strawberry.style.top = randomOffset + '%';
+                    strawberry.setAttribute('data-from', 'left');
+                }
+
+                const duration = Math.random() * 6 + 8;
+                strawberry.style.animationDuration = duration + 's';
+                strawberry.style.opacity = Math.random() * 0.5 + 0.5;
+                strawberry.style.fontSize = (Math.random() * 12 + 14) + 'px';
+                strawberry.style.animationDelay = Math.random() * 1 + 's';
+
+                document.getElementById('strawberries-container').appendChild(strawberry);
+                setTimeout(() => {
+                    if (strawberry.parentNode) {
+                        strawberry.remove();
+                    }
+                }, (duration + 2) * 1000);
+            }
+
+            function startSnowfall() {
+                if (snowfallInterval) {
+                    clearInterval(snowfallInterval);
+                }
+                snowfallInterval = setInterval(createSnowflake, 500);
+            }
+
+            function stopSnowfall() {
+                if (snowfallInterval) {
+                    clearInterval(snowfallInterval);
+                    snowfallInterval = null;
+                }
+                document.getElementById('snow-container').innerHTML = '';
+            }
+
+            function startLeaves() {
+                if (leavesInterval) {
+                    clearInterval(leavesInterval);
+                }
+                leavesInterval = setInterval(createLeaf, 600);
+            }
+
+            function stopLeaves() {
+                if (leavesInterval) {
+                    clearInterval(leavesInterval);
+                    leavesInterval = null;
+                }
+                document.getElementById('leaves-container').innerHTML = '';
+            }
+
+            function startFlowers() {
+                if (flowersInterval) {
+                    clearInterval(flowersInterval);
+                }
+                flowersInterval = setInterval(createFlower, 700);
+            }
+
+            function stopFlowers() {
+                if (flowersInterval) {
+                    clearInterval(flowersInterval);
+                    flowersInterval = null;
+                }
+                document.getElementById('flowers-container').innerHTML = '';
+            }
+
+            function startStrawberries() {
+                if (strawberriesInterval) {
+                    clearInterval(strawberriesInterval);
+                }
+                strawberriesInterval = setInterval(createStrawberry, 600);
+            }
+
+            function stopStrawberries() {
+                if (strawberriesInterval) {
+                    clearInterval(strawberriesInterval);
+                    strawberriesInterval = null;
+                }
+                document.getElementById('strawberries-container').innerHTML = '';
+            }
+
+            function toggleTheme() {
+                currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+                const newTheme = themes[currentThemeIndex];
+                document.body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('chatTheme', newTheme);
+
+                // Update button text with emoji
+                const themeEmojis = {
+                    'autumn': '🍂',
+                    'spring': '🌸',
+                    'summer': '☀️',
+                    'winter': '❄️'
+                };
+                document.getElementById('theme-toggle').textContent = themeEmojis[newTheme] + ' ' + newTheme.charAt(0).toUpperCase() + newTheme.slice(1);
+
+                // Update seasonal effects based on theme
+                stopSnowfall();
+                stopLeaves();
+                stopFlowers();
+                stopStrawberries();
+
+                if (newTheme === 'winter') {
+                    startSnowfall();
+                } else if (newTheme === 'autumn') {
+                    startLeaves();
+                } else if (newTheme === 'spring') {
+                    startFlowers();
+                } else if (newTheme === 'summer') {
+                    startStrawberries();
+                }
+            }
+
+            // Set initial button text
+            const themeEmojis = {
+                'autumn': '🍂',
+                'spring': '🌸',
+                'summer': '☀️',
+                'winter': '❄️'
+            };
+            const currentTheme = document.body.getAttribute('data-theme') || 'winter';
+            document.getElementById('theme-toggle').textContent = themeEmojis[currentTheme] + ' ' + currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1);
+
+            // Start seasonal effects based on current theme
+            if (currentTheme === 'winter') {
+                startSnowfall();
+            } else if (currentTheme === 'autumn') {
+                startLeaves();
+            } else if (currentTheme === 'spring') {
+                startFlowers();
+            } else if (currentTheme === 'summer') {
+                startStrawberries();
+            }
+
+            // Typing animation
+            function typeText(element, text, speed = 100) {
+                let i = 0;
+                element.innerHTML = '';
+
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML = text.substring(0, i + 1) + '<span class="typing-cursor">_</span>';
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        // Keep cursor blinking after typing is complete
+                        element.innerHTML = text + '<span class="typing-cursor">_</span>';
+                    }
+                }
+
+                type();
+            }
+
+            // Start typing animation when page loads
+            const typingElement = document.getElementById('typing-text');
+            if (typingElement) {
+                typeText(typingElement, 'Hi I am your Tech AI Assistant', 80);
+            }
+        </script>
     </div>
-    <ul id="chat-messages-list">
-    </ul>
-    <div id="chat-message-input-container">
-        <input id="chat-message-input" placeholder="Type your message here">
-        <button onclick=sendMessage() id="send-message">Send</button>
-    </div>
+</body>
 
-    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"  ></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        const socket = io('http://localhost:4000/chatRoom');
-        socket.on('connection');
-        socket.on('message',(data)=>{
-            var list=$("#chat-messages-list")
-            list.append('<li class="other-message"><span id="other-message-receive">'+data+'</span></li>')
-        })
-        const sendMessage = () => {
-            var send_message = document.getElementById('chat-message-input');
-            var list=$("#chat-messages-list")
-            list.append('<li class="self-message"><span id="my-message-receive">'+send_message.value+'</span></li>')
-            socket.emit('message',send_message.value);
-        }
-    </script>
-
-
-</div>
+</html>
