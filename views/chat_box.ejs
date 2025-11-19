@@ -29,7 +29,11 @@
         <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            const socket = io('http://localhost:4000');
+            // Socket.io connection - automatically uses current origin in production
+            // For local development, uses localhost:4000, for production uses same origin
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const socketUrl = isLocalhost ? 'http://localhost:4000' : window.location.origin;
+            const socket = io(socketUrl);
 
             socket.on('connect', () => {
                 console.log('Connected to server');
