@@ -29,12 +29,13 @@ app.get('/chatRoom',function(req,res){
 
 
 
-server.listen(process.env.PORT||4000,function(err){
+const port = process.env.PORT || 4000;
+server.listen(port, function(err){
     if(err){
-        console.log(err);
+        console.log('Error starting server:', err);
         return;   
-     }
-        console.log("Server is running on port",PORT)
+    }
+    console.log("Server is running on port", port);
 })
 
 // Store conversation context for each user
@@ -272,6 +273,15 @@ function generateResponse(userMessage, conversationHistory) {
     // Web development
     if (message.match(/(website|web.*develop|build.*website|create.*site|html|css|frontend)/)) {
         return "Web development involves creating websites and web applications. The main components are:\n• HTML: Structure and content\n• CSS: Styling and layout\n• JavaScript: Interactivity and functionality\n• Backend: Server-side logic, databases, APIs\n\nModern web development often uses frameworks like React, Vue, or Angular for frontend, and Node.js, Python (Django/Flask), or other languages for backend. What type of website or web application are you looking to build?";
+    }
+    
+    // Helper function to extract topic from message
+    function extractTopic(msg) {
+        const lowerMsg = msg.toLowerCase();
+        if (lowerMsg.includes('programming') || lowerMsg.includes('code') || lowerMsg.includes('coding')) {
+            return 'programming';
+        }
+        return null;
     }
     
     // General knowledge questions
